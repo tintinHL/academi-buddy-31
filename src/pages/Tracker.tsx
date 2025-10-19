@@ -2,15 +2,61 @@ import { Navigation } from "@/components/Navigation";
 import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
-import { TrendingUp, BookOpen, Target, Sparkles } from "lucide-react";
+import { TrendingUp, BookOpen, Target, Sparkles, CheckCircle2, Clock, FileText } from "lucide-react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 const Tracker = () => {
   const topics = [
-    { name: "Calculus Fundamentals", progress: 85, status: "strong" },
-    { name: "Physics Mechanics", progress: 60, status: "good" },
-    { name: "Chemistry Basics", progress: 40, status: "needs-work" },
-    { name: "Biology Cell Structure", progress: 90, status: "strong" },
-    { name: "Computer Science Algorithms", progress: 70, status: "good" },
+    { 
+      name: "Calculus Fundamentals", 
+      progress: 85, 
+      status: "strong",
+      description: "Advanced understanding of limits, derivatives, and integration techniques",
+      completed: ["Limits and continuity", "Differentiation rules", "Integration by parts"],
+      inProgress: ["Advanced integration techniques"],
+      nextUp: ["Multivariable calculus"]
+    },
+    { 
+      name: "Physics Mechanics", 
+      progress: 60, 
+      status: "good",
+      description: "Working knowledge of motion, forces, and energy principles",
+      completed: ["Newton's laws", "Kinematics"],
+      inProgress: ["Work and energy", "Momentum"],
+      nextUp: ["Rotational motion", "Gravity"]
+    },
+    { 
+      name: "Chemistry Basics", 
+      progress: 40, 
+      status: "needs-work",
+      description: "Foundational concepts in chemical reactions and bonding",
+      completed: ["Atomic structure"],
+      inProgress: ["Chemical bonding", "Periodic table"],
+      nextUp: ["Stoichiometry", "Acids and bases"]
+    },
+    { 
+      name: "Biology Cell Structure", 
+      progress: 90, 
+      status: "strong",
+      description: "Comprehensive grasp of cellular components and their functions",
+      completed: ["Cell membrane", "Organelles", "Cell division", "Protein synthesis"],
+      inProgress: ["Cell signaling"],
+      nextUp: ["Genetics basics"]
+    },
+    { 
+      name: "Computer Science Algorithms", 
+      progress: 70, 
+      status: "good",
+      description: "Solid foundation in algorithm design and complexity analysis",
+      completed: ["Sorting algorithms", "Search algorithms", "Big O notation"],
+      inProgress: ["Dynamic programming"],
+      nextUp: ["Graph algorithms", "Greedy algorithms"]
+    },
   ];
 
   const recommendations = [
@@ -115,27 +161,81 @@ const Tracker = () => {
           {/* Topics Progress */}
           <Card className="p-6">
             <h2 className="text-xl font-semibold mb-4">Your Topics</h2>
-            <div className="space-y-4">
+            <Accordion type="single" collapsible className="space-y-4">
               {topics.map((topic, index) => (
-                <div key={index} className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <span className="font-medium">{topic.name}</span>
-                      <Badge
-                        variant="secondary"
-                        className={getStatusColor(topic.status)}
-                      >
-                        {topic.status.replace("-", " ")}
-                      </Badge>
+                <AccordionItem key={index} value={`item-${index}`} className="border rounded-lg px-4">
+                  <AccordionTrigger className="hover:no-underline">
+                    <div className="flex items-center justify-between w-full pr-4">
+                      <div className="flex items-center gap-2">
+                        <span className="font-medium">{topic.name}</span>
+                        <Badge
+                          variant="secondary"
+                          className={getStatusColor(topic.status)}
+                        >
+                          {topic.status.replace("-", " ")}
+                        </Badge>
+                      </div>
+                      <span className="text-sm text-muted-foreground">
+                        {topic.progress}%
+                      </span>
                     </div>
-                    <span className="text-sm text-muted-foreground">
-                      {topic.progress}%
-                    </span>
-                  </div>
-                  <Progress value={topic.progress} className="h-2" />
-                </div>
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <div className="space-y-4 pt-2">
+                      <Progress value={topic.progress} className="h-2" />
+                      
+                      <p className="text-sm text-muted-foreground">
+                        {topic.description}
+                      </p>
+
+                      <div className="grid gap-3">
+                        <div className="space-y-2">
+                          <div className="flex items-center gap-2 text-sm font-medium">
+                            <CheckCircle2 className="w-4 h-4 text-green-500" />
+                            <span>Completed</span>
+                          </div>
+                          <ul className="ml-6 space-y-1">
+                            {topic.completed.map((item, i) => (
+                              <li key={i} className="text-sm text-muted-foreground">
+                                • {item}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+
+                        <div className="space-y-2">
+                          <div className="flex items-center gap-2 text-sm font-medium">
+                            <Clock className="w-4 h-4 text-blue-500" />
+                            <span>In Progress</span>
+                          </div>
+                          <ul className="ml-6 space-y-1">
+                            {topic.inProgress.map((item, i) => (
+                              <li key={i} className="text-sm text-muted-foreground">
+                                • {item}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+
+                        <div className="space-y-2">
+                          <div className="flex items-center gap-2 text-sm font-medium">
+                            <FileText className="w-4 h-4 text-orange-500" />
+                            <span>Coming Up Next</span>
+                          </div>
+                          <ul className="ml-6 space-y-1">
+                            {topic.nextUp.map((item, i) => (
+                              <li key={i} className="text-sm text-muted-foreground">
+                                • {item}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
               ))}
-            </div>
+            </Accordion>
           </Card>
 
           {/* AI Recommendations */}
