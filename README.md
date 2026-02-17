@@ -1,6 +1,6 @@
 # Welcome to your Lovable project
 
-## Project info
+## Project info - Hackathon Data Science Society 
 
 **URL**: https://lovable.dev/projects/12a48f48-4eac-4e4d-8e76-1a7374e57d9e
 
